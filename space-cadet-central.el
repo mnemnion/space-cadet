@@ -35,6 +35,8 @@
 
 (defvar space-cadet-right-window)
 
+(defvar space-cadet-keymap widget-keymap)
+
 (defun space-cadet-key-notified (self &rest ignore)
   "Self-describe key and other notification actions"
   (describe-key (widget-get self :value)))
@@ -47,6 +49,21 @@
                    key-char))
   (when (cdr keylist)
     (progn (widget-insert " ") (space-cadet-make-keywidgets (cdr keylist)))))
+
+(defun space-cadet-make-keyboard ()
+  "Create the Space Cadet Keyboard"
+  (progn (widget-insert "\n                **Space Cadet Central**\n\n\n")
+  (widget-create 'push-button "TAB")
+  (widget-insert " ")
+  (space-cadet-make-keywidgets space-cadet-toplist)
+  (widget-insert "\n\n")
+  (widget-create 'push-button "CAPS")
+  (widget-insert "  ")
+  (space-cadet-make-keywidgets space-cadet-midlist)
+  (widget-insert "\n\n         ")
+  (space-cadet-make-keywidgets space-cadet-bottomlist)
+  (widget-insert "\n\n                  ")
+  (widget-create 'push-button "Space Cadet Bar\n\n\n")))
 
 (defun space-cadet-central ()
   "Space Cadet Central.
@@ -63,20 +80,11 @@ Emacs is the Gatekeeper. Have at it."
   (setq space-cadet-right-window (split-window-right))
   (set-window-buffer space-cadet-right-window (help-buffer) t)
   (describe-function 'space-cadet-key-notified)
-  (widget-insert "\n                **Space Cadet Central**\n\n\n")
-  (widget-create 'push-button "TAB")
-  (widget-insert " ")
-  (space-cadet-make-keywidgets space-cadet-toplist)
-  (widget-insert "\n\n")
-  (widget-create 'push-button "CAPS")
-  (widget-insert "  ")
-  (space-cadet-make-keywidgets space-cadet-midlist)
-  (widget-insert "\n\n         ")
-  (space-cadet-make-keywidgets space-cadet-bottomlist)
-  (widget-insert "\n\n                  ")
-  (widget-create 'push-button "Space Cadet Bar")
-  (use-local-map widget-keymap)
-  (widget-setup))
+  (space-cadet-make-keyboard)
+
+  (use-local-map space-cadet-keymap)
+  (widget-setup)
+  (zone))
 
 ;(space-cadet-make-keywidgets '("Q" "W"))[Q][W]
 
