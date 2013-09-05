@@ -31,6 +31,8 @@
 
 (defvar space-cadet-central-selected)
 
+(defvar space-cadet-right-window)
+
 (defun space-cadet-key-notified (self &rest ignore)
   "Self-describe key and other notification actions"
   (describe-key (widget-get self :value)))
@@ -55,6 +57,9 @@ Emacs is the Gatekeeper. Have at it."
   (let ((inhibit-read-only t))
      (erase-buffer))
   (remove-overlays)
+  (delete-other-windows)
+  (setq space-cadet-right-window (split-window-right))
+  ;(display-buffer (help-buffer))
   (widget-insert "\n       **Space Cadet Central**\n\n") ;do something to make this center in the buffer
   (space-cadet-make-keywidgets space-cadet-toplist)
   (widget-insert "\n\n ")
