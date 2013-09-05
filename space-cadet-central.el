@@ -63,7 +63,7 @@ Emacs is the Gatekeeper. Have at it."
   (setq space-cadet-right-window (split-window-right))
   (set-window-buffer space-cadet-right-window (help-buffer) t)
   (describe-function 'space-cadet-key-notified)
-  (widget-insert "\n       **Space Cadet Central**\n\n") ;do something to make this center in the buffer
+  (widget-insert "\n                **Space Cadet Central**\n\n\n")
   (widget-create 'push-button "TAB")
   (widget-insert " ")
   (space-cadet-make-keywidgets space-cadet-toplist)
@@ -73,6 +73,8 @@ Emacs is the Gatekeeper. Have at it."
   (space-cadet-make-keywidgets space-cadet-midlist)
   (widget-insert "\n\n         ")
   (space-cadet-make-keywidgets space-cadet-bottomlist)
+  (widget-insert "\n\n                  ")
+  (widget-create 'push-button "Space Cadet Bar")
   (use-local-map widget-keymap)
   (widget-setup))
 
