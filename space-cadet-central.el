@@ -25,7 +25,7 @@
 (eval-when-compile
     (require 'wid-edit))
 
-(defvar space-cadet-toplist '("Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P"))
+(defvar space-cadet-toplist '("Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P" "{" "}" "|"))
 
 (defvar space-cadet-midlist '("A" "S" "D" "F" "G" "H" "J" "K" "L" ";" "'"))
 
@@ -60,9 +60,12 @@ Emacs is the Gatekeeper. Have at it."
   (delete-other-windows)
   (setq space-cadet-right-window (split-window-right))
   (set-window-buffer space-cadet-right-window (help-buffer) t)
+  (describe-function 'space-cadet-central)
   (widget-insert "\n       **Space Cadet Central**\n\n") ;do something to make this center in the buffer
-  (space-cadet-make-keywidgets space-cadet-toplist)
-  (widget-insert "\n\n ")
+  (widget-create 'push-button "TAB")
+  (widget-insert " ")
+  (space-cadet-make-keywidgets space-cadet-toplist)[Q] [W] [E] [R] [T] [Y] [U] [I] [O] [P]
+  (widget-insert "\n\n        ")
   (space-cadet-make-keywidgets space-cadet-midlist)
   (widget-insert "\n")
   (use-local-map widget-keymap)
