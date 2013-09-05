@@ -59,7 +59,7 @@ Emacs is the Gatekeeper. Have at it."
   (remove-overlays)
   (delete-other-windows)
   (setq space-cadet-right-window (split-window-right))
-  ;(display-buffer (help-buffer))
+  (set-window-buffer space-cadet-right-window (help-buffer) t)
   (widget-insert "\n       **Space Cadet Central**\n\n") ;do something to make this center in the buffer
   (space-cadet-make-keywidgets space-cadet-toplist)
   (widget-insert "\n\n ")
