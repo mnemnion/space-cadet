@@ -27,7 +27,9 @@
 
 (defvar space-cadet-toplist '("Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P" "{" "}" "|"))
 
-(defvar space-cadet-midlist '("A" "S" "D" "F" "G" "H" "J" "K" "L" ";" "'"))
+(defvar space-cadet-midlist '("A" "S" "D" "F" "G" "H" "J" "K" "L" ":" "\""))
+
+(defvar space-cadet-bottomlist '("Z" "X" "C" "V" "B" "N" "M" "<" ">" "?"))
 
 (defvar space-cadet-central-selected)
 
@@ -51,7 +53,7 @@
 You are the Keymaster.
 Emacs is the Gatekeeper. Have at it."
   (interactive)
-  (switch-to-buffer "*Space Cadet Central two*")
+  (switch-to-buffer "*Space Cadet Central*")
   (kill-all-local-variables)
   (make-local-variable 'space-cadet-central-repeat)
   (let ((inhibit-read-only t))
@@ -60,14 +62,17 @@ Emacs is the Gatekeeper. Have at it."
   (delete-other-windows)
   (setq space-cadet-right-window (split-window-right))
   (set-window-buffer space-cadet-right-window (help-buffer) t)
-  (describe-function 'space-cadet-central)
+  (describe-function 'space-cadet-key-notified)
   (widget-insert "\n       **Space Cadet Central**\n\n") ;do something to make this center in the buffer
   (widget-create 'push-button "TAB")
   (widget-insert " ")
-  (space-cadet-make-keywidgets space-cadet-toplist)[Q] [W] [E] [R] [T] [Y] [U] [I] [O] [P]
-  (widget-insert "\n\n        ")
+  (space-cadet-make-keywidgets space-cadet-toplist)
+  (widget-insert "\n\n")
+  (widget-create 'push-button "CAPS")
+  (widget-insert "  ")
   (space-cadet-make-keywidgets space-cadet-midlist)
-  (widget-insert "\n")
+  (widget-insert "\n\n         ")
+  (space-cadet-make-keywidgets space-cadet-bottomlist)
   (use-local-map widget-keymap)
   (widget-setup))
 
