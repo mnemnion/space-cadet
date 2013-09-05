@@ -35,6 +35,9 @@
 
 (defvar space-cadet-right-window)
 
+(defvar -:-magic-button)
+(defvar -:-space-bar)
+
 (defvar space-cadet-keymap widget-keymap)
 
 (defun space-cadet-key-notified (self &rest ignore)
@@ -63,7 +66,14 @@
   (widget-insert "\n\n         ")
   (space-cadet-make-keywidgets space-cadet-bottomlist)
   (widget-insert "\n\n                  ")
-  (widget-create 'push-button "Space Cadet Bar\n\n\n")))
+  (setq -:-space-bar (widget-create 'push-button
+                                    :notify (lambda (&rest ignore)
+                                              (widget-put -:-magic-button :value
+                                                          "MUCH MORE MAGIC")
+                                              (widget-setup)
+                                              (message "hit me!"))
+                                    "Space Cadet Bar"))
+  (widget-insert "\n\n\n")))
 
 (defun space-cadet-central ()
   "Space Cadet Central.
@@ -79,9 +89,20 @@ Emacs is the Gatekeeper. Have at it."
   (delete-other-windows)
   (setq space-cadet-right-window (split-window-right))
   (set-window-buffer space-cadet-right-window (help-buffer) t)
-  (describe-function 'space-cadet-key-notified)
+  (describe-function 'space-cadet-central)
   (space-cadet-make-keyboard)
-
+  (setq -:-magic-button (widget-create 'push-button "MAGIC"))
+  (widget-insert "\n\n")
+  (widget-create 'checkbox t)
+  (widget-insert "Ctrl\n")
+  (widget-create 'checkbox nil)
+  (widget-insert "Hyper\n")
+  (widget-create 'checkbox nil)
+  (widget-insert "Meta\n")
+  (widget-create 'checkbox nil)
+  (widget-insert "Shift\n")
+  (widget-create 'checkbox nil)
+  (widget-insert "Super\n")
   (use-local-map space-cadet-keymap)
   (widget-setup)
   (zone))
