@@ -19,6 +19,7 @@
   "space-cadet-central"
   :group 'emacs)
 
+(defvar space-cadet-central-repeat)
 
 (require 'widget)
 
@@ -36,7 +37,13 @@
 (defvar space-cadet-right-window)
 
 (defvar -:-magic-button)
-(defvar -:-space-bar)
+(defvar -:-space-bar (widget-create 'push-button
+                                    :format "%[%v%]"
+                                    :notify (lambda (&rest ignore)
+                                              (widget-put -:-space-bar :value "magical")
+                                              (message "hit me!")
+                                              (space-cadet-central))
+                                    "Space Cadet Bar"))
 
 (defvar space-cadet-keymap widget-keymap)
 
@@ -66,13 +73,7 @@
   (widget-insert "\n\n         ")
   (space-cadet-make-keywidgets space-cadet-bottomlist)
   (widget-insert "\n\n                  ")
-  (setq -:-space-bar (widget-create 'push-button
-                                    :notify (lambda (&rest ignore)
-                                              (widget-put -:-magic-button :value
-                                                          "MUCH MORE MAGIC")
-                                              (widget-setup)
-                                              (message "hit me!"))
-                                    "Space Cadet Bar"))
+  (widget-create -:-space-bar )
   (widget-insert "\n\n\n")))
 
 (defun space-cadet-central ()
