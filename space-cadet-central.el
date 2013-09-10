@@ -26,26 +26,31 @@
 (eval-when-compile
     (require 'wid-edit))
 
-(defvar space-cadet-toplist '("Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P" "{" "}" "|"))
+(defvar space-cadet-toplist-u '("Q" "W" "E" "R" "T" "Y" "U" "I" "O" "P" "{" "}" "|"))
 
-(defvar space-cadet-midlist '("A" "S" "D" "F" "G" "H" "J" "K" "L" ":" "\""))
+(defvar -:-toplist-b '("q" "w" "e" "r" "t" "y" "u" "i" "o" "p" "[" "]" "\\"))
 
-(defvar space-cadet-bottomlist '("Z" "X" "C" "V" "B" "N" "M" "<" ">" "?"))
+(defvar space-cadet-midlist-u '("A" "S" "D" "F" "G" "H" "J" "K" "L" ":" "\""))
+
+(defvar -:-midlist-b '("a" "s" "d" "f" "g" "h" "j" "k" "l" ";" "'"))
+
+(defvar space-cadet-bottomlist-u '("Z" "X" "C" "V" "B" "N" "M" "<" ">" "?"))
+
+(defvar -:-bottomlist-b '("z" "x" "c" "v" "b" "n" "m" "," "." "/"))
 
 (defvar space-cadet-central-selected)
 
 (defvar space-cadet-right-window)
-
+(defvar -:-upcase 0)
 (defvar -:-magic-button)
-(defvar -:-space-bar)
-(setq -:-space-bar (widget-create 'push-button
-                                  :format "%[%v%]"
-                                  :notify (lambda (self &rest ignore)
-                                            (if (string= "magical" (widget-get self :value))
-                                                (widget-put -:-space-bar :value "more magical")
-                                              (widget-put -:-space-bar :value "magical"))
-                                            (space-cadet-central))
-                                  "Space Cadet Bar"))[Space Cadet Bar]
+(defvar -:-space-bar (widget-create 'push-button
+                                :format "%[%v%]"
+                                :notify (lambda (self &rest ignore)
+                                          (if (string= "magical" (widget-get self :value))
+                                              (progn (setq -:-upcase 1) (widget-put -:-space-bar :value "more magical"))
+                                            (progn (setq -:-upcase 0) (widget-put -:-space-bar :value "magical")))
+                                          (space-cadet-central))
+                                "Space Cadet Bar"))
 
 (defvar space-cadet-keymap widget-keymap)
 
@@ -67,13 +72,19 @@
   (progn (widget-insert "\n                **Space Cadet Central**\n\n\n")
   (widget-create 'push-button "TAB")
   (widget-insert " ")
-  (space-cadet-make-keywidgets space-cadet-toplist)
+  (if (= 0 -:-upcase)
+      (space-cadet-make-keywidgets space-cadet-toplist-u)
+    (space-cadet-make-keywidgets -:-toplist-b))
   (widget-insert "\n\n")
   (widget-create 'push-button "CAPS")
   (widget-insert "  ")
-  (space-cadet-make-keywidgets space-cadet-midlist)
+  (if (= 0 -:-upcase)
+      (space-cadet-make-keywidgets space-cadet-midlist-u)
+    (space-cadet-make-keywidgets -:-midlist-b))
   (widget-insert "\n\n         ")
-  (space-cadet-make-keywidgets space-cadet-bottomlist)
+  (if (= 0 -:-upcase)
+      (space-cadet-make-keywidgets space-cadet-bottomlist-u)
+    (space-cadet-make-keywidgets -:-bottomlist-b))
   (widget-insert "\n\n                  ")
   (widget-create -:-space-bar )
   (widget-insert "\n\n\n")))
@@ -109,7 +120,8 @@ Emacs is the Gatekeeper. Have at it."
   (widget-insert "Super\n")
   (use-local-map space-cadet-keymap)
   (widget-setup)
-  (zone))
+  ;(zone)
+  )
 
 ;(space-cadet-make-keywidgets '("Q" "W"))[Q][W]
 
