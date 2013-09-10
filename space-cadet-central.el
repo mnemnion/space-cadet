@@ -37,13 +37,15 @@
 (defvar space-cadet-right-window)
 
 (defvar -:-magic-button)
-(defvar -:-space-bar (widget-create 'push-button
-                                    :format "%[%v%]"
-                                    :notify (lambda (&rest ignore)
-                                              (widget-put -:-space-bar :value "magical")
-                                              (message "hit me!")
-                                              (space-cadet-central))
-                                    "Space Cadet Bar"))
+(defvar -:-space-bar)
+(setq -:-space-bar (widget-create 'push-button
+                                  :format "%[%v%]"
+                                  :notify (lambda (self &rest ignore)
+                                            (if (string= "magical" (widget-get self :value))
+                                                (widget-put -:-space-bar :value "more magical")
+                                              (widget-put -:-space-bar :value "magical"))
+                                            (space-cadet-central))
+                                  "Space Cadet Bar"))[Space Cadet Bar]
 
 (defvar space-cadet-keymap widget-keymap)
 
@@ -82,6 +84,7 @@ You are the Keymaster.
 Emacs is the Gatekeeper. Have at it."
   (interactive)
   (switch-to-buffer "*Space Cadet Central*")
+  ;(erase-buffer)
   (kill-all-local-variables)
   (make-local-variable 'space-cadet-central-repeat)
   (let ((inhibit-read-only t))
