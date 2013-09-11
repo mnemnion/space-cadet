@@ -69,6 +69,8 @@
 
 (defun space-cadet-make-keyboard ()
   "Create the Space Cadet Keyboard"
+  (let ((inhibit-read-only t))
+    (erase-buffer))
   (progn (widget-insert "\n                **Space Cadet Central**\n\n\n")
   (widget-create 'push-button "TAB")
   (widget-insert " ")
